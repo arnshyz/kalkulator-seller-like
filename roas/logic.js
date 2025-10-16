@@ -32,6 +32,26 @@ function tagBadge(label, tone) {
   return `<span class="ml-3 inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${classes}">${label}</span>`;
 }
 
+function computeGaugeAngle(value, refs = []) {
+  const candidates = refs.filter((v) => Number.isFinite(v) && v > 0);
+  if (Number.isFinite(value) && value > 0) {
+    candidates.push(value);
+  }
+  let min = candidates.length ? Math.min(...candidates, 1) : 1;
+  let max = candidates.length ? Math.max(...candidates, min + 1, 3) : 3;
+  min = Math.min(min, 1);
+  max = Math.max(max, min + 1.2);
+  const span = max - min;
+  if (!Number.isFinite(span) || span <= 0) {
+    return 0;
+  }
+  let val = Number.isFinite(value) && value > 0 ? value : min;
+  val = Math.min(Math.max(val, min), max);
+  const ratio = (val - min) / span;
+  const angle = -130 + ratio * 260;
+  return Math.max(-130, Math.min(130, angle));
+}
+
 function evaluateStatus(inputs, metrics) {
   if (!isFinite(metrics.profit) || !isFinite(metrics.margin)) {
     return { label: 'Rugi', ...statusStyles.Rugi };
@@ -137,11 +157,68 @@ function render() {
   const statusDesc = document.getElementById('statusDescription');
   const legendBox = document.getElementById('statusLegend');
 
+  const gaugeAngle = computeGaugeAngle(highlightValue, [bep.roas, tgt.roas]);
+  const gaugeBepLabel = (!Number.isFinite(bep.roas) || bep.roas <= 0) ? '—' : `${bep.roas.toFixed(2)} : 1`;
+  const gaugeTargetLabel = (!Number.isFinite(tgt.roas) || tgt.roas <= 0) ? '—' : `${tgt.roas.toFixed(2)} : 1`;
+  const profitTone = Number.isFinite(highlightMetrics.profit)
+    ? (highlightMetrics.profit >= 0 ? 'text-emerald-200' : 'text-rose-200')
+    : 'text-slate-300';
+  const marginTone = Number.isFinite(highlightMetrics.margin)
+    ? (highlightMetrics.margin >= inputs.targetNetPct - 1e-6
+      ? 'text-emerald-200'
+      : (highlightMetrics.margin > 0 ? 'text-amber-200' : 'text-rose-200'))
+    : 'text-slate-300';
+  const marginLabel = Number.isFinite(highlightMetrics.margin)
+    ? `${(highlightMetrics.margin * 100).toFixed(2)}%`
+    : 'Tidak tersedia';
+  const profitLabel = Number.isFinite(highlightMetrics.profit)
+    ? `Rp ${idr(highlightMetrics.profit)}`
+    : 'Tidak tersedia';
+  const profitIcon = Number.isFinite(highlightMetrics.profit)
+    ? (highlightMetrics.profit >= 0
+      ? '<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l6 6L21 6" />'
+      : '<path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M6 18L18 6" />')
+    : '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 6h.01" />';
+  const marginIcon = Number.isFinite(highlightMetrics.margin)
+    ? (highlightMetrics.margin >= inputs.targetNetPct - 1e-6
+      ? '<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12l6 6 9-12" />'
+      : (highlightMetrics.margin > 0
+        ? '<path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16" />'
+        : '<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12l-6-6-9 12" />'))
+    : '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 6h.01" />';
+
   statusDesc.textContent = highlightStatus.description;
   highlightBox.innerHTML = `
-    <div class="flex flex-col items-end gap-1 text-right">
-      ${statusBadge(highlightStatus.label, 'lg')}
-      <span class="text-[11px] text-slate-400">${highlightCaption || 'Belum ada skenario ROAS yang memenuhi target margin.'}</span>
+    <div class="flex flex-col items-end gap-3 text-right">
+      <div class="flex items-start gap-4">
+        <div class="flex flex-col items-end">
+          <div class="roas-gauge" role="img" aria-label="Penunjuk status ROAS">
+            <div class="roas-gauge-track"></div>
+            <div class="roas-gauge-needle" style="transform: rotate(${gaugeAngle.toFixed(2)}deg);"></div>
+            <div class="roas-gauge-center"></div>
+          </div>
+          <div class="roas-gauge-caption mt-2 flex w-full max-w-[132px] justify-between text-slate-400/80">
+            <span class="text-rose-200/80">BEP<br /><span class="font-semibold">${gaugeBepLabel}</span></span>
+            <span class="text-emerald-200/80">Target<br /><span class="font-semibold">${gaugeTargetLabel}</span></span>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-2">
+          ${statusBadge(highlightStatus.label, 'lg')}
+          <span class="text-[11px] text-slate-400">${highlightCaption || 'Belum ada skenario ROAS yang memenuhi target margin.'}</span>
+        </div>
+      </div>
+      <div class="flex flex-wrap justify-end gap-2 text-[11px] text-slate-300">
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 ${profitTone}">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">${profitIcon}</svg>
+          <span class="font-medium">Profit:</span>
+          <span class="font-semibold">${profitLabel}</span>
+        </span>
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 ${marginTone}">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">${marginIcon}</svg>
+          <span class="font-medium">Margin:</span>
+          <span class="font-semibold">${marginLabel}</span>
+        </span>
+      </div>
     </div>`;
   legendBox.innerHTML = ['Target', 'Profit Tipis', 'Rugi'].map(label => statusBadge(label)).join('');
 

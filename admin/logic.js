@@ -44,6 +44,16 @@
   };
   const deviceResetBtn = document.querySelector('[data-device-reset]');
 
+  const syncEls = {
+    exportField: document.querySelector('[data-export-field]'),
+    copyExport: document.querySelector('[data-copy-export]'),
+    refreshExport: document.querySelector('[data-refresh-export]'),
+    importField: document.querySelector('[data-import-field]'),
+    importMerge: document.querySelector('[data-import-merge]'),
+    importReplace: document.querySelector('[data-import-replace]'),
+    importMessage: document.querySelector('[data-import-message]'),
+  };
+
   let editingId = null;
   let cachedCatalog = [];
   let deviceMessageTimer = null;
@@ -149,6 +159,14 @@
     }, 4000);
   }
 
+  function showImportMessage(text, isSuccess) {
+    const messageEl = syncEls.importMessage;
+    if (!messageEl) return;
+    messageEl.textContent = text;
+    messageEl.classList.remove('hidden', 'text-emerald-300', 'text-rose-300');
+    messageEl.classList.add(isSuccess ? 'text-emerald-300' : 'text-rose-300');
+  }
+
   function updateDurationMeta(typeValue) {
     const type = typeValue === 'trial' ? 'trial' : 'premium';
     if (durationTitle) {
@@ -178,6 +196,78 @@
     }
     updateDurationMeta(fields.type ? fields.type.value : 'premium');
     clearFormMessage();
+  }
+
+  function refreshExportField() {
+    if (!syncEls.exportField) return;
+    const value = window.SellerLicense?.exportCatalog
+      ? window.SellerLicense.exportCatalog({ format: 'base64' })
+      : '';
+    syncEls.exportField.value = value || '';
+  }
+
+  function copyExportString() {
+    if (!syncEls.exportField) return;
+    const text = syncEls.exportField.value || '';
+    if (!text) {
+      showImportMessage('Tidak ada data lisensi untuk disalin.', false);
+      return;
+    }
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          showImportMessage('String lisensi disalin. Tempel di halaman utama untuk sinkron.', true);
+        })
+        .catch(() => {
+          showImportMessage('Gagal menyalin string. Salin secara manual.', false);
+        });
+      return;
+    }
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      showImportMessage('String lisensi disalin. Tempel di halaman utama untuk sinkron.', true);
+    } catch (error) {
+      showImportMessage('Gagal menyalin string. Salin secara manual.', false);
+    }
+  }
+
+  function handleImport(mode) {
+    if (!syncEls.importField) return;
+    if (!window.SellerLicense?.importCatalog) {
+      showImportMessage('Fungsi impor lisensi tidak tersedia.', false);
+      return;
+    }
+    const raw = syncEls.importField.value || '';
+    if (!raw.trim()) {
+      showImportMessage('Tempel string lisensi terlebih dahulu.', false);
+      return;
+    }
+    const result = window.SellerLicense.importCatalog(raw, { mode });
+    if (!result.ok) {
+      showImportMessage(result.message || 'Gagal mengimpor lisensi.', false);
+      return;
+    }
+    refreshExportField();
+    syncEls.importField.value = '';
+    const importedCount = result.imported?.length || 0;
+    const previousTotal = Number.isFinite(result.previousTotal) ? result.previousTotal : cachedCatalog.length;
+    const totalNow = result.total ?? previousTotal;
+    const delta = totalNow - previousTotal;
+    const actionLabel = mode === 'replace' ? 'mengganti' : 'menggabungkan';
+    const deltaLabel = delta === 0 ? '0' : `${delta > 0 ? '+' : ''}${delta}`;
+    showImportMessage(
+      `Berhasil ${actionLabel} ${importedCount} lisensi (Δ ${deltaLabel}). Total sekarang ${totalNow} item.`,
+      true
+    );
   }
 
   function fillForm(license, options = {}) {
@@ -573,6 +663,7 @@
   document.addEventListener('seller-license-catalog', (event) => {
     const detail = event.detail || {};
     renderCatalog(detail.licenses || [], detail.summary);
+    refreshExportField();
   });
 
   document.addEventListener('seller-license-status', (event) => {
@@ -613,8 +704,22 @@
   if (window.SellerLicense?.getCatalog) {
     renderCatalog(window.SellerLicense.getCatalog());
   }
+  refreshExportField();
   if (window.SellerLicense?.getStatus) {
     renderDeviceStatus(window.SellerLicense.getStatus());
   }
   updateDurationMeta(fields.type ? fields.type.value : 'premium');
+
+  if (syncEls.copyExport) {
+    syncEls.copyExport.addEventListener('click', copyExportString);
+  }
+  if (syncEls.refreshExport) {
+    syncEls.refreshExport.addEventListener('click', refreshExportField);
+  }
+  if (syncEls.importMerge) {
+    syncEls.importMerge.addEventListener('click', () => handleImport('merge'));
+  }
+  if (syncEls.importReplace) {
+    syncEls.importReplace.addEventListener('click', () => handleImport('replace'));
+  }
 })();

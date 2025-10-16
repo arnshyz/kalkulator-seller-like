@@ -237,12 +237,72 @@
                       Reset Form
                     </button>
                   </div>
-                  <p class="hidden text-xs font-medium" data-form-message></p>
-                </form>
-              </section>
-            </div>
+                <p class="hidden text-xs font-medium" data-form-message></p>
+              </form>
+            </section>
+            <section class="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-[0_25px_55px_-30px_rgba(59,130,246,0.4)]">
+              <div class="space-y-2">
+                <span class="inline-flex items-center gap-2 rounded-full bg-sky-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-sky-200">Sinkronisasi Data</span>
+                <h2 class="text-lg font-semibold">Bagikan Katalog ke Halaman Publik</h2>
+                <p class="text-sm text-slate-300">Salin string lisensi ke perangkat lain atau tempel string dari halaman utama untuk memperbarui katalog di sini.</p>
+              </div>
+              <div class="mt-5 space-y-5">
+                <div class="space-y-2">
+                  <label class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">String Katalog</label>
+                  <textarea
+                    data-export-field
+                    class="h-28 w-full resize-none rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3 text-xs text-slate-200 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
+                    readonly
+                    spellcheck="false"
+                  ></textarea>
+                  <div class="flex flex-wrap gap-2 text-xs">
+                    <button
+                      type="button"
+                      data-copy-export
+                      class="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl border border-white/10 px-3 py-2 font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+                    >
+                      Salin String
+                    </button>
+                    <button
+                      type="button"
+                      data-refresh-export
+                      class="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 px-3 py-2 font-semibold text-white/60 transition hover:border-white/40 hover:text-white"
+                    >
+                      Perbarui
+                    </button>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <label class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Impor / Sinkronkan</label>
+                  <textarea
+                    data-import-field
+                    class="h-28 w-full resize-none rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3 text-xs text-slate-200 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                    placeholder="Tempel string lisensi dari halaman publik di sini"
+                    spellcheck="false"
+                  ></textarea>
+                  <div class="flex flex-wrap gap-2 text-xs">
+                    <button
+                      type="button"
+                      data-import-merge
+                      class="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl border border-emerald-400/40 bg-emerald-400/10 px-3 py-2 font-semibold text-emerald-100 transition hover:border-emerald-400/60 hover:text-white"
+                    >
+                      Gabungkan
+                    </button>
+                    <button
+                      type="button"
+                      data-import-replace
+                      class="inline-flex items-center justify-center gap-2 rounded-2xl border border-rose-400/40 bg-rose-400/10 px-3 py-2 font-semibold text-rose-100 transition hover:border-rose-400/60 hover:text-white"
+                    >
+                      Ganti Semua
+                    </button>
+                  </div>
+                  <p class="hidden text-xs font-medium" data-import-message></p>
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
+        </div>
+      </section>
       </main>
 
       <footer class="border-t border-white/10 bg-slate-950/80 py-6">

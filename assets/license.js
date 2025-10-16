@@ -103,6 +103,14 @@
     return list.map((license) => ({ ...license }));
   }
 
+  function buildExportPayload(list) {
+    return {
+      version: 1,
+      exportedAt: nowISO(),
+      licenses: cloneCatalog(list),
+    };
+  }
+
   function buildSummary(list) {
     return list.reduce(
       (acc, license) => {
@@ -237,6 +245,111 @@
     dispatchCatalog(normalized);
     notify();
     return normalized;
+  }
+
+  function exportCatalog(options = {}) {
+    const format = options.format === 'json' ? 'json' : options.format === 'object' ? 'object' : 'base64';
+    const catalog = ensureCatalog();
+    const payload = buildExportPayload(catalog);
+
+    if (format === 'object') {
+      return payload;
+    }
+
+    const json = JSON.stringify(payload, null, options.pretty ? 2 : 0);
+    if (format === 'json') {
+      return json;
+    }
+
+    try {
+      return btoa(unescape(encodeURIComponent(json)));
+    } catch (error) {
+      console.warn('SellerLicense: gagal membuat string base64, mengembalikan JSON biasa.', error);
+      return json;
+    }
+  }
+
+  function parseImportSource(source) {
+    if (!source) return null;
+
+    if (Array.isArray(source)) {
+      return { licenses: source };
+    }
+
+    if (typeof source === 'object') {
+      return source;
+    }
+
+    if (typeof source !== 'string') return null;
+
+    const trimmed = source.trim();
+    if (!trimmed) return null;
+
+    const tryParseJSON = (text) => {
+      try {
+        return JSON.parse(text);
+      } catch (error) {
+        return null;
+      }
+    };
+
+    const decoded = (() => {
+      try {
+        return decodeURIComponent(escape(atob(trimmed)));
+      } catch (error) {
+        return null;
+      }
+    })();
+
+    return tryParseJSON(decoded || trimmed);
+  }
+
+  function importCatalog(source, options = {}) {
+    const mode = options.mode === 'replace' ? 'replace' : 'merge';
+    const parsed = parseImportSource(source);
+    if (!parsed) {
+      return { ok: false, message: 'Format data lisensi tidak dikenali.' };
+    }
+
+    const rawList = Array.isArray(parsed) ? parsed : Array.isArray(parsed.licenses) ? parsed.licenses : null;
+    if (!rawList || !rawList.length) {
+      return { ok: false, message: 'Data lisensi kosong.' };
+    }
+
+    const currentCatalog = ensureCatalog();
+    const baseCatalog = mode === 'replace' ? [] : currentCatalog;
+    const byCode = new Map();
+    baseCatalog.forEach((item) => {
+      byCode.set(item.code, { ...item });
+    });
+
+    const imported = [];
+    rawList.forEach((item) => {
+      const normalized = normalizeLicense(item);
+      if (!normalized) return;
+      const existing = byCode.get(normalized.code);
+      if (existing) {
+        normalized.id = existing.id;
+        normalized.createdAt = existing.createdAt || normalized.createdAt;
+      }
+      byCode.set(normalized.code, normalized);
+      imported.push(normalized);
+    });
+
+    if (imported.length === 0) {
+      return { ok: false, message: 'Tidak ada lisensi valid pada data impor.' };
+    }
+
+    const merged = Array.from(byCode.values());
+    saveCatalog(merged);
+
+    return {
+      ok: true,
+      imported: imported.map((item) => ({ ...item })),
+      total: merged.length,
+      mode,
+      previousTotal: currentCatalog.length,
+    };
   }
 
   function getCatalog() {
@@ -415,6 +528,8 @@
     saveLicense,
     deleteLicense,
     setLicenseStatus,
+    exportCatalog,
+    importCatalog,
   };
 
   const initialCatalog = ensureCatalog();

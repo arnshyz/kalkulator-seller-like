@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Hitung HPP Produk</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 text-gray-900"><div class="max-w-3xl mx-auto p-6 space-y-4">
+<h1 class="text-2xl font-bold">Hitung HPP Produk</h1>
+<p class="text-sm text-gray-600">Tambahkan komponen biaya untuk mendapatkan HPP per unit.</p>
+<div class="bg-white p-4 rounded-2xl shadow">
+  <div id="rows" class="space-y-2"></div>
+  <button id="add" class="px-3 py-2 rounded-xl border">Tambah Komponen</button>
+  <button id="calc" class="px-3 py-2 rounded-xl bg-blue-600 text-white">Hitung</button>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow">
+  <h2 class="font-semibold mb-2">Hasil</h2>
+  <div id="out" class="text-sm"></div>
+</div>
+<a href="../index.html" class="text-sm text-blue-600">Kembali</a>
+<script>
+function rowTpl(){return `<div class="grid grid-cols-3 gap-2 items-center">
+  <input type="text" placeholder="Nama komponen" class="border rounded-xl p-2 col-span-1"/>
+  <input type="number" placeholder="Biaya total (Rp)" class="border rounded-xl p-2"/>
+  <input type="number" placeholder="Qty hasil (unit)" class="border rounded-xl p-2"/>
+</div>`;}
+const rows=document.getElementById('rows'); rows.innerHTML=rowTpl()+rowTpl()+rowTpl();
+document.getElementById('add').addEventListener('click',()=>{rows.insertAdjacentHTML('beforeend',rowTpl());});
+document.getElementById('calc').addEventListener('click',()=>{
+  const items=[...rows.querySelectorAll('.grid')].map(g=>{
+    const inputs=g.querySelectorAll('input'); return {cost:parseFloat(inputs[1].value||'0'), qty:parseFloat(inputs[2].value||'1')};
+  });
+  const perUnit = items.reduce((s,x)=>s+(x.qty>0?x.cost/x.qty:0),0);
+  document.getElementById('out').innerHTML = `<div>HPP Per Unit: <b>Rp ${new Intl.NumberFormat('id-ID').format(Math.round(perUnit))}</b></div>`;
+});
+</script>
+</div></body></html>

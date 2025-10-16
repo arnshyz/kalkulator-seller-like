@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kalkulator Target ROAS</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 text-gray-900"><div class="max-w-5xl mx-auto p-6 space-y-4">
+<h1 class="text-2xl font-bold">Kalkulator Target ROAS</h1>
+<p class="text-sm text-gray-600">BEP ROAS, target ROAS, dan simulasi status.</p>
+<section class="grid md:grid-cols-3 gap-4">
+<div class="bg-white p-4 rounded-2xl shadow space-y-2">
+  <label class="block text-sm">Harga Jual (Rp)</label><input id="price" type="number" class="w-full border rounded-xl p-2" value="39500"/>
+  <label class="block text-sm">HPP (Rp)</label><input id="hpp" type="number" class="w-full border rounded-xl p-2" value="17000"/>
+  <label class="block text-sm">Biaya Proses Flat (Rp)</label><input id="procFlat" type="number" class="w-full border rounded-xl p-2" value="1250"/>
+  <label class="block text-sm">Admin Kategori (%)</label><input id="adminPct" type="number" class="w-full border rounded-xl p-2" value="8" step="0.01"/>
+  <label class="block text-sm">Program Promo (%)</label><input id="programPct" type="number" class="w-full border rounded-xl p-2" value="0" step="0.01"/>
+  <label class="block text-sm">Biaya Live (%)</label><input id="livePct" type="number" class="w-full border rounded-xl p-2" value="0" step="0.01"/>
+  <label class="block text-sm">PPN atas fee (%)</label><input id="ppnFeePct" type="number" class="w-full border rounded-xl p-2" value="0" step="0.01"/>
+  <label class="block text-sm">Admin Flat Tambahan (Rp)</label><input id="adminFlat" type="number" class="w-full border rounded-xl p-2" value="0"/>
+  <label class="block text-sm">Target Profit Bersih (% harga)</label><input id="targetNetPct" type="number" class="w-full border rounded-xl p-2" value="10" step="0.01"/>
+  <button id="btnCalc" class="w-full py-2 rounded-xl bg-blue-600 text-white">Hitung</button>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow md:col-span-2">
+  <h2 class="font-semibold mb-2">Hasil</h2>
+  <div id="results" class="text-sm space-y-1"></div>
+  <h3 class="font-semibold mt-4 mb-2">Simulasi</h3>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm" id="simTable">
+      <thead><tr class="text-left border-b">
+        <th class="py-2 pr-4">ROAS</th>
+        <th class="py-2 pr-4 text-right">Biaya Iklan</th>
+        <th class="py-2 pr-4 text-right">Profit/Unit</th>
+        <th class="py-2 pr-4 text-right">Margin</th>
+        <th class="py-2 pr-4 text-center">Status</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+</section>
+<a href="../index.html" class="text-sm text-blue-600">Kembali</a>
+<script src="./logic.js"></script>
+</div></body></html>

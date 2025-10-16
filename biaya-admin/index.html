@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Hitung Biaya Admin</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gray-50 text-gray-900"><div class="max-w-3xl mx-auto p-6 space-y-4">
+<h1 class="text-2xl font-bold">Hitung Biaya Admin</h1>
+<p class="text-sm text-gray-600">Masukkan harga jual dan biaya admin rupiah dari rincian penjualan.</p>
+<div class="bg-white p-4 rounded-2xl shadow space-y-2">
+  <label class="block text-sm">Harga Jual (Rp)</label><input id="price" type="number" class="w-full border rounded-xl p-2" value="39500"/>
+  <label class="block text-sm">Biaya Admin (Rp)</label><input id="admin" type="number" class="w-full border rounded-xl p-2" value="3160"/>
+  <button id="calc" class="px-4 py-2 rounded-xl bg-blue-600 text-white">Hitung</button>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow">
+  <h2 class="font-semibold mb-2">Hasil</h2>
+  <div id="out" class="text-sm"></div>
+</div>
+<a href="../index.html" class="text-sm text-blue-600">Kembali</a>
+<script>
+function idr(x){return new Intl.NumberFormat('id-ID').format(Math.round(x||0));}
+function v(id){return parseFloat(document.getElementById(id).value||"0");}
+document.getElementById('calc').addEventListener('click',()=>{
+  const price=v('price'), admin=v('admin');
+  const pct = price<=0?0:(admin/price)*100;
+  document.getElementById('out').innerHTML = `
+    <div>Biaya Admin: <b>Rp ${idr(admin)}</b></div>
+    <div>Persentase Admin: <b>${pct.toFixed(2)}%</b></div>`;
+});
+</script>
+</div></body></html>

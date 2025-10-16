@@ -26,13 +26,19 @@
             </p>
           </div>
         </div>
-        <div class="rounded-3xl border border-white/10 bg-white/5 px-6 py-5 text-sm text-slate-200 backdrop-blur">
-          <p class="text-xs uppercase tracking-wide text-slate-400">Tips Cepat</p>
-          <ul class="mt-2 space-y-1 text-xs sm:text-sm">
-            <li>• Isi biaya admin &amp; promo secara lengkap.</li>
-            <li>• Sesuaikan target margin bersih sesuai strategi.</li>
-            <li>• Gunakan simulasi untuk melihat status ROAS.</li>
-          </ul>
+        <div class="flex flex-col gap-4">
+          <div class="rounded-3xl border border-white/10 bg-white/5 px-6 py-5 text-sm text-slate-200 backdrop-blur">
+            <p class="text-xs uppercase tracking-wide text-slate-400">Tips Cepat</p>
+            <ul class="mt-2 space-y-1 text-xs sm:text-sm">
+              <li>• Isi biaya admin &amp; promo secara lengkap.</li>
+              <li>• Sesuaikan target margin bersih sesuai strategi.</li>
+              <li>• Gunakan simulasi untuk melihat status ROAS.</li>
+            </ul>
+          </div>
+          <div class="flex items-center justify-between gap-3 rounded-3xl border border-white/10 bg-white/5 px-5 py-4 text-xs text-slate-200 backdrop-blur">
+            <span id="pageLicenseBadge" class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-semibold uppercase tracking-widest text-indigo-200">Premium Locked</span>
+            <button data-open-license type="button" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-sky-400 px-4 py-2 text-[11px] font-semibold text-slate-900 shadow-lg shadow-emerald-500/20 transition hover:shadow-emerald-500/40">Masukkan Lisensi</button>
+          </div>
         </div>
       </header>
 
@@ -125,6 +131,99 @@
         </section>
       </main>
     </div>
+    <div id="licenseGate" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 px-4 py-6">
+      <div class="w-full max-w-md rounded-3xl border border-white/10 bg-slate-900/95 p-7 text-slate-200 shadow-2xl">
+        <div class="space-y-3 text-center">
+          <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-indigo-200">Premium</span>
+          <h2 class="text-2xl font-semibold text-white">Aktifkan Lisensi Seller Pro</h2>
+          <p class="text-sm text-slate-300">Fitur simulasi ROAS lanjutan hanya bisa digunakan ketika lisensi premium aktif.</p>
+        </div>
+        <form id="licenseGateForm" class="mt-6 space-y-3">
+          <input id="licenseGateCode" type="text" placeholder="Contoh: SELLERPRO-2025" class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40" />
+          <button type="submit" class="w-full rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-sky-400 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/50">Aktifkan Lisensi</button>
+          <p id="licenseGateMessage" class="hidden text-xs font-medium"></p>
+        </form>
+        <div class="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-slate-300">
+          <p class="font-semibold text-white">Belum punya kode?</p>
+          <p class="mt-1">Hubungi <a href="https://wa.me/6281234567890" class="text-emerald-200 underline">WhatsApp Support</a> untuk membeli lisensi atau klaim trial.</p>
+        </div>
+      </div>
+    </div>
+
     <script src="./logic.js"></script>
+    <script src="../assets/license.js"></script>
+    <script>
+      (function () {
+        const gate = document.getElementById('licenseGate');
+        const form = document.getElementById('licenseGateForm');
+        const codeInput = document.getElementById('licenseGateCode');
+        const message = document.getElementById('licenseGateMessage');
+        const openers = document.querySelectorAll('[data-open-license]');
+        const badge = document.getElementById('pageLicenseBadge');
+
+        function setGate(open) {
+          if (!gate) return;
+          gate.classList.toggle('hidden', !open);
+          gate.classList.toggle('flex', open);
+          document.body.classList.toggle('overflow-hidden', open);
+          if (open) {
+            message?.classList.add('hidden');
+            codeInput?.focus();
+            codeInput?.select();
+          }
+        }
+
+        function showMessage(text, isSuccess) {
+          if (!message) return;
+          message.textContent = text;
+          message.classList.remove('hidden', 'text-emerald-300', 'text-rose-300');
+          message.classList.add(isSuccess ? 'text-emerald-300' : 'text-rose-300');
+        }
+
+        function updateBadge(active) {
+          if (!badge) return;
+          badge.className = 'inline-flex items-center gap-2 rounded-full border px-3 py-1 font-semibold uppercase tracking-widest';
+          if (active) {
+            badge.classList.add('border-emerald-400/40', 'bg-emerald-400/20', 'text-emerald-100');
+            badge.textContent = 'Premium Aktif';
+          } else {
+            badge.classList.add('border-white/10', 'bg-white/5', 'text-indigo-200');
+            badge.textContent = 'Premium Locked';
+          }
+        }
+
+        openers.forEach((btn) => btn.addEventListener('click', (event) => {
+          event.preventDefault();
+          setGate(true);
+        }));
+
+        gate?.addEventListener('click', (event) => {
+          if (event.target === gate && window.SellerLicense?.isActive()) {
+            setGate(false);
+          }
+        });
+
+        form?.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const code = codeInput?.value || '';
+          const result = window.SellerLicense?.activate ? window.SellerLicense.activate(code) : { ok: false, message: 'Lisensi tidak tersedia.' };
+          if (result.ok) {
+            showMessage('Lisensi aktif! Simulasi ROAS siap digunakan.', true);
+            setTimeout(() => setGate(false), 900);
+          } else {
+            showMessage(result.message || 'Kode lisensi tidak valid.', false);
+          }
+        });
+
+        function handleStatus(event) {
+          const active = event?.detail?.active || false;
+          updateBadge(active);
+          setGate(!active);
+        }
+
+        document.addEventListener('seller-license-status', handleStatus);
+        handleStatus({ detail: { active: window.SellerLicense?.isActive?.() || false } });
+      })();
+    </script>
   </body>
 </html>

@@ -20,17 +20,29 @@
 <body class="min-h-screen bg-slate-950 text-slate-100">
   <div class="relative overflow-hidden">
     <header class="border-b border-white/10 backdrop-blur bg-white/5 sticky top-0 z-20">
-      <div class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+      <div class="max-w-6xl mx-auto flex items-center justify-between gap-4 px-6 py-4">
         <div>
           <p class="text-xs tracking-widest uppercase text-cyan-300/80">Seller Toolkit</p>
           <h1 class="text-2xl font-semibold">Kalkulator Penjual</h1>
         </div>
-        <a href="https://wa.me/6281234567890" class="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-2 text-sm font-medium text-slate-900 shadow-lg shadow-cyan-500/30 transition hover:shadow-xl">
-          <span>Butuh Bantuan?</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.75l3 3 4.5-7.5" />
-          </svg>
-        </a>
+        <div class="flex flex-col items-end gap-3 sm:flex-row sm:items-center">
+          <span id="licenseStatusBadge" class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-semibold text-slate-200">
+            <span class="h-2 w-2 rounded-full bg-amber-300"></span>
+            Lisensi Gratis Aktif
+          </span>
+          <button data-open-license type="button" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-300 via-rose-300 to-fuchsia-300 px-5 py-2 text-sm font-semibold text-slate-900 shadow-lg shadow-amber-400/20 transition hover:shadow-2xl">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Aktifkan Lisensi
+          </button>
+          <a href="https://wa.me/6281234567890" class="inline-flex items-center gap-2 rounded-full border border-white/10 px-5 py-2 text-sm font-medium text-white/80 transition hover:border-white/40 hover:text-white">
+            <span>Butuh Bantuan?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.75l3 3 4.5-7.5" />
+            </svg>
+          </a>
+        </div>
       </div>
     </header>
 
@@ -50,8 +62,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
               </svg>
             </a>
-            <a href="./roas/index.html" class="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 hover:border-white/40">
-              Lihat Kalkulator ROAS
+            <a href="./roas/index.html" class="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 hover:border-white/40" data-requires-license>
+              Coba Kalkulator Premium
             </a>
           </div>
           <dl class="grid grid-cols-2 gap-6 sm:grid-cols-4 pt-4">
@@ -116,6 +128,90 @@
         </div>
       </section>
 
+      <section id="lisensi" class="max-w-6xl mx-auto px-6 pb-16">
+        <div class="grid gap-8 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur lg:grid-cols-[1.15fr_0.85fr]">
+          <div class="space-y-5">
+            <span class="inline-flex items-center gap-2 rounded-full bg-amber-400/10 px-4 py-1 text-xs font-semibold text-amber-200 ring-1 ring-inset ring-amber-400/30">Program Premium</span>
+            <h3 class="text-3xl font-semibold leading-tight text-white">Buka semua kalkulator lanjutan dengan satu lisensi Seller Pro.</h3>
+            <p id="licenseStateCopy" class="text-sm leading-relaxed text-slate-300">Versi gratis memberikan akses ke kalkulator dasar. Aktifkan lisensi untuk membuka simulasi ROAS, Appslets-style pricing, dan roadmap fitur eksklusif lainnya.</p>
+            <ul class="grid gap-3 text-sm text-slate-200 sm:grid-cols-2">
+              <li class="flex items-start gap-3">
+                <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400/20 text-emerald-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <div>
+                  <p class="font-medium text-white">Simulasi Profit Lanjutan</p>
+                  <p class="text-xs text-slate-400">Highlight Target / Profit Tipis / Rugi dan tabel sensitivitas otomatis.</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400/20 text-emerald-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <div>
+                  <p class="font-medium text-white">Insight Harga Akurat</p>
+                  <p class="text-xs text-slate-400">Rekomendasi harga jual, BEP, dan target margin secara instan.</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400/20 text-emerald-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <div>
+                  <p class="font-medium text-white">Roadmap Update Eksklusif</p>
+                  <p class="text-xs text-slate-400">Akses awal ke automation workbook & integrasi marketplace.</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400/20 text-emerald-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <div>
+                  <p class="font-medium text-white">Support Prioritas</p>
+                  <p class="text-xs text-slate-400">Tim kami siap bantu optimasi campaign dan audit listing.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="space-y-6">
+            <div class="rounded-3xl border border-white/10 bg-slate-950/60 p-8 text-slate-200 shadow-[0_25px_60px_-25px_rgba(14,165,233,0.45)]">
+              <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Seller Pro License</p>
+              <div class="mt-4 flex items-end gap-2">
+                <span class="text-4xl font-semibold text-white">Rp149K</span>
+                <span class="pb-1 text-xs text-slate-400">/bulan</span>
+              </div>
+              <p class="mt-3 text-sm text-slate-300">Coba gratis 7 hari dengan kode <span class="font-semibold text-white">SELLER-TRIAL-7</span>. Upgrade penuh gunakan <span class="font-semibold text-white">SELLERPRO-2025</span>.</p>
+              <button data-open-license type="button" class="mt-6 w-full rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-sky-400 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/50">Masukkan Kode Lisensi</button>
+              <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-slate-300">
+                <p class="font-semibold text-white">Termasuk</p>
+                <ul class="mt-2 space-y-2">
+                  <li class="flex items-center gap-2">
+                    <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                    Unlock semua kalkulator premium & template otomatis.
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                    Update fitur tanpa biaya tambahan.
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                    Konsultasi strategi via WhatsApp Prioritas.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="tools" class="max-w-6xl mx-auto px-6 pb-16">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -135,7 +231,7 @@
         </div>
 
         <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          <a href="./hpp/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+          <a href="./hpp/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30" data-license-tier="free">
             <div class="flex items-center justify-between">
               <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/20 text-indigo-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -154,14 +250,14 @@
             </div>
           </a>
 
-          <a href="./roas/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+          <a href="./roas/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30" data-license-tier="premium" data-requires-license>
             <div class="flex items-center justify-between">
               <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-500/20 text-pink-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 3.75l7.5 16.5-7.5-3-7.5 3 7.5-16.5z" />
                 </svg>
               </div>
-              <span class="rounded-full bg-indigo-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-indigo-200">Analisis Lanjutan</span>
+              <span data-license-pill class="rounded-full bg-indigo-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-indigo-200">Premium</span>
             </div>
             <h4 class="mt-5 text-xl font-semibold">Hitung Target ROAS</h4>
             <p class="mt-3 text-sm text-slate-300">BEP ROAS, target performa, serta simulasi profit dengan indikator Target / Profit Tipis / Rugi.</p>
@@ -171,16 +267,22 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
               </svg>
             </div>
+            <div data-license-lock class="pointer-events-none absolute inset-0 hidden items-center justify-center bg-slate-950/80 text-center text-xs font-semibold uppercase tracking-widest text-slate-200 backdrop-blur-sm">
+              <div class="space-y-2">
+                <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold text-white">Premium Locked</span>
+                <p class="text-[11px] normal-case tracking-normal text-slate-300">Aktifkan lisensi Seller Pro untuk membuka kalkulator ini.</p>
+              </div>
+            </div>
           </a>
 
-          <a href="./harga-jual/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+          <a href="./harga-jual/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30" data-license-tier="premium" data-requires-license>
             <div class="flex items-center justify-between">
               <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5l9 9 4.5-4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <span class="rounded-full bg-emerald-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-200">Direkomendasikan</span>
+              <span data-license-pill class="rounded-full bg-indigo-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-indigo-200">Premium</span>
             </div>
             <h4 class="mt-5 text-xl font-semibold">Hitung Harga Jual</h4>
             <p class="mt-3 text-sm text-slate-300">Susun harga berdasarkan HPP, target margin, dan fee marketplace secara otomatis.</p>
@@ -190,16 +292,22 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
               </svg>
             </div>
+            <div data-license-lock class="pointer-events-none absolute inset-0 hidden items-center justify-center bg-slate-950/80 text-center text-xs font-semibold uppercase tracking-widest text-slate-200 backdrop-blur-sm">
+              <div class="space-y-2">
+                <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold text-white">Premium Locked</span>
+                <p class="text-[11px] normal-case tracking-normal text-slate-300">Masukkan kode lisensi untuk mengakses kalkulator harga lengkap.</p>
+              </div>
+            </div>
           </a>
 
-          <a href="./kalkulator-harga/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+          <a href="./kalkulator-harga/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30" data-license-tier="premium" data-requires-license>
             <div class="flex items-center justify-between">
               <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/20 text-cyan-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                 </svg>
               </div>
-              <span class="rounded-full bg-indigo-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-indigo-200">Analisis Lanjutan</span>
+              <span data-license-pill class="rounded-full bg-indigo-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-indigo-200">Premium</span>
             </div>
             <h4 class="mt-5 text-xl font-semibold">Kalkulator Harga (Appslets)</h4>
             <p class="mt-3 text-sm text-slate-300">Halaman spesial terinspirasi Appslets dengan skenario harga, rekomendasi target, dan insight visual.</p>
@@ -209,9 +317,15 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
               </svg>
             </div>
+            <div data-license-lock class="pointer-events-none absolute inset-0 hidden items-center justify-center bg-slate-950/80 text-center text-xs font-semibold uppercase tracking-widest text-slate-200 backdrop-blur-sm">
+              <div class="space-y-2">
+                <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold text-white">Premium Locked</span>
+                <p class="text-[11px] normal-case tracking-normal text-slate-300">Aktifkan lisensi untuk membuka kalkulator gaya Appslets.</p>
+              </div>
+            </div>
           </a>
 
-          <a href="./biaya-admin/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+          <a href="./biaya-admin/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30" data-license-tier="free">
             <div class="flex items-center justify-between">
               <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -244,5 +358,170 @@
       </div>
     </footer>
   </div>
+
+  <div id="licenseModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 px-4 py-6">
+    <div class="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-slate-900/95 p-7 text-slate-200 shadow-2xl">
+      <button type="button" data-close-license class="absolute right-4 top-4 rounded-full border border-white/10 bg-white/5 p-1 text-slate-300 transition hover:border-white/30 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div class="space-y-5">
+        <div class="space-y-2">
+          <span class="inline-flex items-center gap-2 rounded-full bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-emerald-200">Lisensi</span>
+          <h2 class="text-2xl font-semibold text-white">Aktifkan Lisensi Seller Pro</h2>
+          <p class="text-sm text-slate-300">Masukkan kode lisensi yang Anda terima dari tim Seller Tools untuk membuka semua kalkulator premium.</p>
+        </div>
+        <form id="licenseForm" class="space-y-3">
+          <label class="block text-xs font-semibold uppercase tracking-widest text-slate-400">Kode Lisensi</label>
+          <input id="licenseCodeInput" type="text" placeholder="Contoh: SELLERPRO-2025" class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40" />
+          <button type="submit" class="w-full rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-sky-400 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/50">Aktifkan Sekarang</button>
+          <p id="licenseMessage" class="hidden text-xs font-medium"></p>
+        </form>
+        <button id="licenseReset" type="button" class="w-full rounded-2xl border border-white/10 px-4 py-2 text-xs font-medium text-slate-300 transition hover:border-white/30 hover:text-white">Lepas Lisensi dari Perangkat Ini</button>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-slate-300">
+          <p class="font-semibold text-white">Belum punya kode?</p>
+          <p class="mt-1">Hubungi kami melalui <a href="https://wa.me/6281234567890" class="text-emerald-200 underline">WhatsApp Support</a> untuk membeli atau klaim trial.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./assets/license.js"></script>
+  <script>
+    (function () {
+      const body = document.body;
+      const modal = document.getElementById('licenseModal');
+      const licenseStatusBadge = document.getElementById('licenseStatusBadge');
+      const licenseStateCopy = document.getElementById('licenseStateCopy');
+      const message = document.getElementById('licenseMessage');
+      const codeInput = document.getElementById('licenseCodeInput');
+      const form = document.getElementById('licenseForm');
+      const resetBtn = document.getElementById('licenseReset');
+      const openers = document.querySelectorAll('[data-open-license]');
+      const closers = document.querySelectorAll('[data-close-license]');
+      const premiumLinks = Array.from(document.querySelectorAll('[data-requires-license]'));
+
+      function setModal(open) {
+        if (!modal) return;
+        modal.classList.toggle('hidden', !open);
+        modal.classList.toggle('flex', open);
+        body.classList.toggle('overflow-hidden', open);
+        if (open) {
+          message?.classList.add('hidden');
+          if (codeInput) {
+            codeInput.focus();
+            codeInput.select();
+          }
+        }
+      }
+
+      function showMessage(text, isSuccess) {
+        if (!message) return;
+        message.textContent = text;
+        message.classList.remove('hidden', 'text-emerald-300', 'text-rose-300');
+        message.classList.add(isSuccess ? 'text-emerald-300' : 'text-rose-300');
+      }
+
+      function updateBadge(active, code) {
+        if (!licenseStatusBadge) return;
+        licenseStatusBadge.className = 'inline-flex items-center gap-2 rounded-full border px-4 py-1 text-xs font-semibold';
+        licenseStatusBadge.classList.add('transition');
+        if (active) {
+          licenseStatusBadge.classList.add('border-emerald-400/40', 'bg-emerald-400/20', 'text-emerald-100');
+          licenseStatusBadge.innerHTML = '<span class="h-2 w-2 rounded-full bg-emerald-300"></span>Lisensi Premium Aktif';
+        } else {
+          licenseStatusBadge.classList.add('border-white/10', 'bg-white/5', 'text-slate-200');
+          licenseStatusBadge.innerHTML = '<span class="h-2 w-2 rounded-full bg-amber-300"></span>Lisensi Gratis Aktif';
+        }
+      }
+
+      function updateCopy(active, code) {
+        if (!licenseStateCopy) return;
+        if (active) {
+          licenseStateCopy.textContent = 'Lisensi aktif. Nikmati akses penuh ke kalkulator lanjutan dan update fitur otomatis untuk akun Seller Pro Anda.';
+        } else {
+          licenseStateCopy.textContent = 'Versi gratis memberikan akses ke kalkulator dasar. Aktifkan lisensi untuk membuka simulasi ROAS, Appslets-style pricing, dan roadmap fitur eksklusif lainnya.';
+        }
+      }
+
+      function updateCards(active) {
+        premiumLinks.forEach((link) => {
+          const pill = link.querySelector('[data-license-pill]');
+          const lock = link.querySelector('[data-license-lock]');
+          if (pill) {
+            pill.textContent = active ? 'Premium Terbuka' : 'Premium';
+            pill.className = 'rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-widest';
+            if (active) {
+              pill.classList.add('bg-emerald-400/20', 'text-emerald-200');
+            } else {
+              pill.classList.add('bg-indigo-400/20', 'text-indigo-200');
+            }
+          }
+          if (lock) {
+            lock.classList.toggle('hidden', active);
+            lock.classList.toggle('flex', !active);
+          }
+        });
+      }
+
+      function handleStatus(event) {
+        const detail = event?.detail || { active: false };
+        updateBadge(detail.active, detail.code);
+        updateCopy(detail.active, detail.code);
+        updateCards(detail.active);
+      }
+
+      openers.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+          event.preventDefault();
+          setModal(true);
+        });
+      });
+
+      closers.forEach((btn) => btn.addEventListener('click', () => setModal(false)));
+
+      if (modal) {
+        modal.addEventListener('click', (event) => {
+          if (event.target === modal) {
+            setModal(false);
+          }
+        });
+      }
+
+      premiumLinks.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          if (!window.SellerLicense?.isActive()) {
+            event.preventDefault();
+            setModal(true);
+          }
+        });
+      });
+
+      form?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const code = codeInput?.value || '';
+        const result = window.SellerLicense?.activate ? window.SellerLicense.activate(code) : { ok: false, message: 'Lisensi tidak tersedia.' };
+        if (result.ok) {
+          showMessage('Lisensi berhasil diaktifkan. Selamat menggunakan fitur premium!', true);
+          setTimeout(() => setModal(false), 900);
+        } else {
+          showMessage(result.message || 'Aktivasi lisensi gagal. Periksa kode Anda.', false);
+        }
+      });
+
+      resetBtn?.addEventListener('click', () => {
+        window.SellerLicense?.deactivate?.();
+        showMessage('Lisensi telah dinonaktifkan dari perangkat ini.', false);
+      });
+
+      document.addEventListener('seller-license-status', handleStatus);
+      if (window.SellerLicense?.isActive) {
+        handleStatus({ detail: { active: window.SellerLicense.isActive(), code: window.SellerLicense.getCode?.() } });
+      } else {
+        handleStatus({ detail: { active: false } });
+      }
+    })();
+  </script>
 </body>
 </html>

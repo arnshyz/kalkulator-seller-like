@@ -1,40 +1,229 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Kalkulator Target ROAS</title><script src="https://cdn.tailwindcss.com"></script></head>
-<body class="bg-gray-50 text-gray-900"><div class="max-w-5xl mx-auto p-6 space-y-4">
-<h1 class="text-2xl font-bold">Kalkulator Target ROAS</h1>
-<p class="text-sm text-gray-600">BEP ROAS, target ROAS, dan simulasi status.</p>
-<section class="grid md:grid-cols-3 gap-4">
-<div class="bg-white p-4 rounded-2xl shadow space-y-2">
-  <label class="block text-sm">Harga Jual (Rp)</label><input id="price" type="number" class="w-full border rounded-xl p-2" value="39500"/>
-  <label class="block text-sm">HPP (Rp)</label><input id="hpp" type="number" class="w-full border rounded-xl p-2" value="17000"/>
-  <label class="block text-sm">Biaya Proses Flat (Rp)</label><input id="procFlat" type="number" class="w-full border rounded-xl p-2" value="1250"/>
-  <label class="block text-sm">Admin Kategori (%)</label><input id="adminPct" type="number" class="w-full border rounded-xl p-2" value="8" step="0.01"/>
-  <label class="block text-sm">Program Promo (%)</label><input id="programPct" type="number" class="w-full border rounded-xl p-2" value="0" step="0.01"/>
-  <label class="block text-sm">Biaya Live (%)</label><input id="livePct" type="number" class="w-full border rounded-xl p-2" value="0" step="0.01"/>
-  <label class="block text-sm">PPN atas fee (%)</label><input id="ppnFeePct" type="number" class="w-full border rounded-xl p-2" value="0" step="0.01"/>
-  <label class="block text-sm">Admin Flat Tambahan (Rp)</label><input id="adminFlat" type="number" class="w-full border rounded-xl p-2" value="0"/>
-  <label class="block text-sm">Target Profit Bersih (% harga)</label><input id="targetNetPct" type="number" class="w-full border rounded-xl p-2" value="10" step="0.01"/>
-  <button id="btnCalc" class="w-full py-2 rounded-xl bg-blue-600 text-white">Hitung</button>
-</div>
-<div class="bg-white p-4 rounded-2xl shadow md:col-span-2">
-  <h2 class="font-semibold mb-2">Hasil</h2>
-  <div id="results" class="text-sm space-y-1"></div>
-  <h3 class="font-semibold mt-4 mb-2">Simulasi</h3>
-  <div class="overflow-x-auto">
-    <table class="min-w-full text-sm" id="simTable">
-      <thead><tr class="text-left border-b">
-        <th class="py-2 pr-4">ROAS</th>
-        <th class="py-2 pr-4 text-right">Biaya Iklan</th>
-        <th class="py-2 pr-4 text-right">Profit/Unit</th>
-        <th class="py-2 pr-4 text-right">Margin</th>
-        <th class="py-2 pr-4 text-center">Status</th>
-      </tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</div>
-</section>
-<a href="../index.html" class="text-sm text-blue-600">Kembali</a>
-<script src="./logic.js"></script>
-</div></body></html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kalkulator Target ROAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+      <div class="absolute -top-32 -left-20 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl"></div>
+      <div class="absolute top-1/3 -right-24 h-96 w-96 rounded-full bg-blue-500/20 blur-3xl"></div>
+      <div class="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl"></div>
+    </div>
+    <div class="relative z-10 mx-auto max-w-6xl px-5 py-12">
+      <header class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div class="space-y-3">
+          <a href="../index.html" class="inline-flex items-center gap-2 text-sm font-medium text-slate-300 transition hover:text-white">
+            <span class="text-lg">←</span> Kembali ke Beranda
+          </a>
+          <div>
+            <p class="text-xs uppercase tracking-[0.4em] text-slate-400">ROAS Planner</p>
+            <h1 class="mt-2 text-4xl font-bold text-white sm:text-5xl">Kalkulator Target ROAS</h1>
+            <p class="mt-3 max-w-xl text-sm text-slate-300 sm:text-base">
+              Optimalkan budget iklan Anda dengan menghitung fee marketplace, titik BEP, serta target ROAS berdasarkan margin yang diinginkan.
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <div class="rounded-3xl border border-white/10 bg-white/5 px-6 py-5 text-sm text-slate-200 backdrop-blur">
+            <p class="text-xs uppercase tracking-wide text-slate-400">Tips Cepat</p>
+            <ul class="mt-2 space-y-1 text-xs sm:text-sm">
+              <li>• Isi biaya admin &amp; promo secara lengkap.</li>
+              <li>• Sesuaikan target margin bersih sesuai strategi.</li>
+              <li>• Gunakan simulasi untuk melihat status ROAS.</li>
+            </ul>
+          </div>
+          <div class="flex items-center justify-between gap-3 rounded-3xl border border-white/10 bg-white/5 px-5 py-4 text-xs text-slate-200 backdrop-blur">
+            <span id="pageLicenseBadge" class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-semibold uppercase tracking-widest text-indigo-200">Premium Locked</span>
+            <button data-open-license type="button" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-sky-400 px-4 py-2 text-[11px] font-semibold text-slate-900 shadow-lg shadow-emerald-500/20 transition hover:shadow-emerald-500/40">Masukkan Lisensi</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="mt-10 grid gap-6 lg:grid-cols-[1.05fr_1fr]">
+        <section class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+          <div class="flex items-center justify-between border-b border-white/5 pb-4">
+            <div>
+              <h2 class="text-lg font-semibold text-white">Data Dasar Produk</h2>
+              <p class="text-xs text-slate-400">Masukkan data biaya untuk menghitung ROAS ideal.</p>
+            </div>
+            <span class="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-200">Input</span>
+          </div>
+          <div class="mt-4 grid gap-4 text-sm">
+            <label class="space-y-1">
+              <span class="block text-xs font-medium text-slate-300">Harga Jual (Rp)</span>
+              <input id="price" type="number" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="39500" />
+            </label>
+            <label class="space-y-1">
+              <span class="block text-xs font-medium text-slate-300">HPP (Rp)</span>
+              <input id="hpp" type="number" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="17000" />
+            </label>
+            <label class="space-y-1">
+              <span class="block text-xs font-medium text-slate-300">Biaya Proses Flat (Rp)</span>
+              <input id="procFlat" type="number" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="1250" />
+            </label>
+            <div class="grid gap-4 md:grid-cols-2">
+              <label class="space-y-1">
+                <span class="block text-xs font-medium text-slate-300">Admin Kategori (%)</span>
+                <input id="adminPct" type="number" step="0.01" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="8" />
+              </label>
+              <label class="space-y-1">
+                <span class="block text-xs font-medium text-slate-300">Program Promo (%)</span>
+                <input id="programPct" type="number" step="0.01" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="0" />
+              </label>
+              <label class="space-y-1">
+                <span class="block text-xs font-medium text-slate-300">Biaya Live (%)</span>
+                <input id="livePct" type="number" step="0.01" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="0" />
+              </label>
+              <label class="space-y-1">
+                <span class="block text-xs font-medium text-slate-300">PPN atas Fee (%)</span>
+                <input id="ppnFeePct" type="number" step="0.01" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="0" />
+              </label>
+            </div>
+            <label class="space-y-1">
+              <span class="block text-xs font-medium text-slate-300">Admin Flat Tambahan (Rp)</span>
+              <input id="adminFlat" type="number" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="0" />
+            </label>
+            <label class="space-y-1">
+              <span class="block text-xs font-medium text-slate-300">Target Profit Bersih (% harga)</span>
+              <input id="targetNetPct" type="number" step="0.01" class="w-full rounded-2xl border border-white/10 bg-slate-900/40 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40" value="10" />
+            </label>
+          </div>
+          <button id="btnCalc" class="mt-6 w-full rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:shadow-blue-900/50 focus:outline-none focus:ring-2 focus:ring-blue-300/60">
+            Hitung Target ROAS
+          </button>
+        </section>
+
+        <section class="flex flex-col gap-6 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+          <div>
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-semibold text-white">Ringkasan &amp; Indikator</h2>
+                <p class="text-xs text-slate-400">Lihat fee total, titik BEP, serta status profit berdasarkan target.</p>
+              </div>
+              <span class="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-200">Analisa</span>
+            </div>
+            <div id="results" class="mt-5 space-y-4 text-sm"></div>
+          </div>
+
+          <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <h3 class="text-base font-semibold text-white">Simulasi ROAS</h3>
+              <p class="text-xs text-slate-400">Bandingkan margin dan status profit untuk berbagai skenario ROAS.</p>
+            </div>
+            <div class="mt-4 overflow-hidden rounded-2xl border border-white/5">
+              <table class="min-w-full divide-y divide-white/5 text-sm" id="simTable">
+                <thead class="bg-white/5 text-left text-xs uppercase tracking-wide text-slate-300">
+                  <tr>
+                    <th class="px-4 py-3">ROAS</th>
+                    <th class="px-4 py-3 text-right">Biaya Iklan</th>
+                    <th class="px-4 py-3 text-right">Profit / Unit</th>
+                    <th class="px-4 py-3 text-right">Margin</th>
+                    <th class="px-4 py-3 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5 bg-slate-950/40"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div id="licenseGate" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 px-4 py-6">
+      <div class="w-full max-w-md rounded-3xl border border-white/10 bg-slate-900/95 p-7 text-slate-200 shadow-2xl">
+        <div class="space-y-3 text-center">
+          <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-indigo-200">Premium</span>
+          <h2 class="text-2xl font-semibold text-white">Aktifkan Lisensi Seller Pro</h2>
+          <p class="text-sm text-slate-300">Fitur simulasi ROAS lanjutan hanya bisa digunakan ketika lisensi premium aktif.</p>
+        </div>
+        <form id="licenseGateForm" class="mt-6 space-y-3">
+          <input id="licenseGateCode" type="text" placeholder="Contoh: SELLERPRO-2025" class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40" />
+          <button type="submit" class="w-full rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-sky-400 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/50">Aktifkan Lisensi</button>
+          <p id="licenseGateMessage" class="hidden text-xs font-medium"></p>
+        </form>
+        <div class="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-slate-300">
+          <p class="font-semibold text-white">Belum punya kode?</p>
+          <p class="mt-1">Hubungi <a href="https://wa.me/6281234567890" class="text-emerald-200 underline">WhatsApp Support</a> untuk membeli lisensi atau klaim trial.</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="./logic.js"></script>
+    <script src="../assets/license.js"></script>
+    <script>
+      (function () {
+        const gate = document.getElementById('licenseGate');
+        const form = document.getElementById('licenseGateForm');
+        const codeInput = document.getElementById('licenseGateCode');
+        const message = document.getElementById('licenseGateMessage');
+        const openers = document.querySelectorAll('[data-open-license]');
+        const badge = document.getElementById('pageLicenseBadge');
+
+        function setGate(open) {
+          if (!gate) return;
+          gate.classList.toggle('hidden', !open);
+          gate.classList.toggle('flex', open);
+          document.body.classList.toggle('overflow-hidden', open);
+          if (open) {
+            message?.classList.add('hidden');
+            codeInput?.focus();
+            codeInput?.select();
+          }
+        }
+
+        function showMessage(text, isSuccess) {
+          if (!message) return;
+          message.textContent = text;
+          message.classList.remove('hidden', 'text-emerald-300', 'text-rose-300');
+          message.classList.add(isSuccess ? 'text-emerald-300' : 'text-rose-300');
+        }
+
+        function updateBadge(active) {
+          if (!badge) return;
+          badge.className = 'inline-flex items-center gap-2 rounded-full border px-3 py-1 font-semibold uppercase tracking-widest';
+          if (active) {
+            badge.classList.add('border-emerald-400/40', 'bg-emerald-400/20', 'text-emerald-100');
+            badge.textContent = 'Premium Aktif';
+          } else {
+            badge.classList.add('border-white/10', 'bg-white/5', 'text-indigo-200');
+            badge.textContent = 'Premium Locked';
+          }
+        }
+
+        openers.forEach((btn) => btn.addEventListener('click', (event) => {
+          event.preventDefault();
+          setGate(true);
+        }));
+
+        gate?.addEventListener('click', (event) => {
+          if (event.target === gate && window.SellerLicense?.isActive()) {
+            setGate(false);
+          }
+        });
+
+        form?.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const code = codeInput?.value || '';
+          const result = window.SellerLicense?.activate ? window.SellerLicense.activate(code) : { ok: false, message: 'Lisensi tidak tersedia.' };
+          if (result.ok) {
+            showMessage('Lisensi aktif! Simulasi ROAS siap digunakan.', true);
+            setTimeout(() => setGate(false), 900);
+          } else {
+            showMessage(result.message || 'Kode lisensi tidak valid.', false);
+          }
+        });
+
+        function handleStatus(event) {
+          const active = event?.detail?.active || false;
+          updateBadge(active);
+          setGate(!active);
+        }
+
+        document.addEventListener('seller-license-status', handleStatus);
+        handleStatus({ detail: { active: window.SellerLicense?.isActive?.() || false } });
+      })();
+    </script>
+  </body>
+</html>

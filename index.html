@@ -1,37 +1,248 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Aplikasi Seller Tools</title>
-<script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aplikasi Seller Tools</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.25), transparent 60%),
+                  radial-gradient(circle at 80% 30%, rgba(236, 72, 153, 0.25), transparent 55%),
+                  radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.2), transparent 60%);
+      z-index: -1;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-2">Aplikasi Seller Tools</h1>
-    <p class="text-sm text-gray-600 mb-6">Versi 1.0.0</p>
-    <div class="grid md:grid-cols-2 gap-4">
-      <a href="./hpp/index.html" class="block p-4 bg-white rounded-2xl shadow hover:shadow-md">
-        <div class="font-semibold">Hitung HPP Produk</div>
-        <div class="text-xs text-gray-500">Rata-rata biaya bahan/produksi per unit.</div>
-      </a>
-      <a href="./roas/index.html" class="block p-4 bg-white rounded-2xl shadow hover:shadow-md">
-        <div class="font-semibold">Hitung Target ROAS Iklan</div>
-        <div class="text-xs text-gray-500">BEP ROAS, ROAS target, simulasi profit.</div>
-      </a>
-      <a href="./harga-jual/index.html" class="block p-4 bg-white rounded-2xl shadow hover:shadow-md">
-        <div class="font-semibold">Hitung Harga Jual</div>
-        <div class="text-xs text-gray-500">Dari HPP, fee, dan target margin/profit.</div>
-      </a>
-      <a href="./kalkulator-harga/index.html" class="block p-4 bg-white rounded-2xl shadow hover:shadow-md">
-        <div class="font-semibold">Kalkulator Harga (Appslets Style)</div>
-        <div class="text-xs text-gray-500">Rumus harga jual dengan fee marketplace & target margin.</div>
-      </a>
-      <a href="./biaya-admin/index.html" class="block p-4 bg-white rounded-2xl shadow hover:shadow-md">
-        <div class="font-semibold">Hitung Biaya Admin</div>
-        <div class="text-xs text-gray-500">Persentase admin Shopee/Tokopedia dsb.</div>
-      </a>
-    </div>
-    <footer class="text-xs text-gray-500 mt-8">Copyright © 2025.</footer>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <div class="relative overflow-hidden">
+    <header class="border-b border-white/10 backdrop-blur bg-white/5 sticky top-0 z-20">
+      <div class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+        <div>
+          <p class="text-xs tracking-widest uppercase text-cyan-300/80">Seller Toolkit</p>
+          <h1 class="text-2xl font-semibold">Kalkulator Penjual</h1>
+        </div>
+        <a href="https://wa.me/6281234567890" class="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-2 text-sm font-medium text-slate-900 shadow-lg shadow-cyan-500/30 transition hover:shadow-xl">
+          <span>Butuh Bantuan?</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.75l3 3 4.5-7.5" />
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <main class="relative">
+      <section class="max-w-6xl mx-auto px-6 pb-10 pt-12 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-start">
+        <div class="space-y-6">
+          <span class="inline-flex items-center gap-2 rounded-full bg-cyan-400/10 px-4 py-1 text-xs font-semibold text-cyan-200 ring-1 ring-inset ring-cyan-400/30">
+            <span class="h-2 w-2 rounded-full bg-cyan-300 animate-pulse"></span>
+            All-in-One Seller Assistant
+          </span>
+          <h2 class="text-4xl font-semibold leading-tight sm:text-5xl">Hitung strategi harga, margin, dan performa iklan dalam hitungan detik.</h2>
+          <p class="text-base text-slate-300 leading-relaxed">Rangkai skenario bisnis terbaik dengan kumpulan kalkulator yang disiapkan khusus untuk seller marketplace. Semua rumus penting kami bungkus dalam antarmuka yang nyaman, responsif, dan mudah dimengerti.</p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#tools" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 px-6 py-3 text-sm font-semibold text-slate-900 shadow-xl shadow-pink-500/20 transition hover:shadow-2xl">
+              Mulai Gunakan Sekarang
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
+              </svg>
+            </a>
+            <a href="./roas/index.html" class="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 hover:border-white/40">
+              Lihat Kalkulator ROAS
+            </a>
+          </div>
+          <dl class="grid grid-cols-2 gap-6 sm:grid-cols-4 pt-4">
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg">
+              <dt class="text-xs uppercase tracking-widest text-slate-300/70">Total Tools</dt>
+              <dd class="mt-3 text-3xl font-semibold">5</dd>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg">
+              <dt class="text-xs uppercase tracking-widest text-slate-300/70">Last Update</dt>
+              <dd class="mt-3 text-lg font-semibold">Jan 2025</dd>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg">
+              <dt class="text-xs uppercase tracking-widest text-slate-300/70">Optimasi Rata-rata</dt>
+              <dd class="mt-3 text-lg font-semibold text-emerald-300">+18%</dd>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg">
+              <dt class="text-xs uppercase tracking-widest text-slate-300/70">User Aktif</dt>
+              <dd class="mt-3 text-lg font-semibold">1.2K</dd>
+            </div>
+          </dl>
+        </div>
+        <div class="relative">
+          <div class="absolute -top-6 -right-6 h-32 w-32 rounded-full bg-cyan-400/20 blur-3xl"></div>
+          <div class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_25px_65px_-25px_rgba(14,165,233,0.45)]">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-cyan-200">Sorotan Terbaru</h3>
+            <div class="mt-5 space-y-4">
+              <div class="flex gap-3 rounded-2xl bg-white/5 p-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l3 3" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold">Simulasi Sensitivitas Harga</p>
+                  <p class="text-xs text-slate-300">Eksplor selisih profit 3 skenario sekaligus dengan highlight Target / Profit Tipis / Rugi.</p>
+                </div>
+              </div>
+              <div class="flex gap-3 rounded-2xl bg-white/5 p-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold">Rekomendasi Harga Otomatis</p>
+                  <p class="text-xs text-slate-300">Langsung dapatkan harga jual, BEP, dan margin ideal tanpa rumit.</p>
+                </div>
+              </div>
+              <div class="flex gap-3 rounded-2xl bg-white/5 p-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5m-14.25 4.5h12m-9.75 4.5h7.5" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold">Checklist Margin & Fee Marketplace</p>
+                  <p class="text-xs text-slate-300">Selalu ingatkan biaya admin, voucher, dan biaya tambahan lainnya.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tools" class="max-w-6xl mx-auto px-6 pb-16">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h3 class="text-2xl font-semibold">Pilih Kalkulator</h3>
+            <p class="text-sm text-slate-300">Semua tools siap dipakai. Klik salah satu kartu untuk langsung bekerja.</p>
+          </div>
+          <div class="flex flex-wrap gap-2 text-xs text-slate-300/80">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 px-3 py-1">
+              <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+              Direkomendasikan
+            </span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 px-3 py-1">
+              <span class="h-2 w-2 rounded-full bg-indigo-400"></span>
+              Analisis Lanjutan
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <a href="./hpp/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+            <div class="flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/20 text-indigo-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6h16.5M3.75 9h16.5m-16.5 3h16.5m-16.5 3h10.5m-10.5 3h7.5" />
+                </svg>
+              </div>
+              <span class="rounded-full bg-emerald-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-200">Direkomendasikan</span>
+            </div>
+            <h4 class="mt-5 text-xl font-semibold">Hitung HPP Produk</h4>
+            <p class="mt-3 text-sm text-slate-300">Rata-rata biaya produksi & bahan baku per unit dengan pembagian otomatis.</p>
+            <div class="mt-6 flex items-center gap-2 text-xs text-cyan-200">
+              <span>Mulai Hitung</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="./roas/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+            <div class="flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-500/20 text-pink-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 3.75l7.5 16.5-7.5-3-7.5 3 7.5-16.5z" />
+                </svg>
+              </div>
+              <span class="rounded-full bg-indigo-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-indigo-200">Analisis Lanjutan</span>
+            </div>
+            <h4 class="mt-5 text-xl font-semibold">Hitung Target ROAS</h4>
+            <p class="mt-3 text-sm text-slate-300">BEP ROAS, target performa, serta simulasi profit dengan indikator Target / Profit Tipis / Rugi.</p>
+            <div class="mt-6 flex items-center gap-2 text-xs text-cyan-200">
+              <span>Optimalkan Iklan</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="./harga-jual/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+            <div class="flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5l9 9 4.5-4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <span class="rounded-full bg-emerald-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-200">Direkomendasikan</span>
+            </div>
+            <h4 class="mt-5 text-xl font-semibold">Hitung Harga Jual</h4>
+            <p class="mt-3 text-sm text-slate-300">Susun harga berdasarkan HPP, target margin, dan fee marketplace secara otomatis.</p>
+            <div class="mt-6 flex items-center gap-2 text-xs text-cyan-200">
+              <span>Atur Strategi</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="./kalkulator-harga/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+            <div class="flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/20 text-cyan-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+              </div>
+              <span class="rounded-full bg-indigo-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-indigo-200">Analisis Lanjutan</span>
+            </div>
+            <h4 class="mt-5 text-xl font-semibold">Kalkulator Harga (Appslets)</h4>
+            <p class="mt-3 text-sm text-slate-300">Halaman spesial terinspirasi Appslets dengan skenario harga, rekomendasi target, dan insight visual.</p>
+            <div class="mt-6 flex items-center gap-2 text-xs text-cyan-200">
+              <span>Eksplor Fitur</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="./biaya-admin/index.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-cyan-500/30">
+            <div class="flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l3.5-3.5M12 15l-3.5-3.5M6 21h12" />
+                </svg>
+              </div>
+              <span class="rounded-full bg-emerald-400/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-200">Direkomendasikan</span>
+            </div>
+            <h4 class="mt-5 text-xl font-semibold">Hitung Biaya Admin</h4>
+            <p class="mt-3 text-sm text-slate-300">Estimasi fee platform, voucher, dan promo untuk menjaga profit tetap aman.</p>
+            <div class="mt-6 flex items-center gap-2 text-xs text-cyan-200">
+              <span>Kontrol Pengeluaran</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6-6 6m-9-6h15" />
+              </svg>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-white/10 bg-black/30">
+      <div class="max-w-6xl mx-auto flex flex-col gap-4 px-6 py-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+        <p>© 2025 Seller Tools. Semua hak dilindungi.</p>
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="mailto:team@sellertools.id" class="hover:text-slate-200">Kontak</a>
+          <a href="#" class="hover:text-slate-200">Panduan Penggunaan</a>
+          <a href="#" class="hover:text-slate-200">Kebijakan Privasi</a>
+        </div>
+      </div>
+    </footer>
   </div>
 </body>
 </html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel Admin Lisensi - Seller Toolkit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 15% 20%, rgba(14, 165, 233, 0.25), transparent 60%),
+          radial-gradient(circle at 80% 15%, rgba(236, 72, 153, 0.2), transparent 55%),
+          radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.18), transparent 60%);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <div class="flex min-h-screen flex-col">
+      <header class="border-b border-white/10 bg-slate-950/60 backdrop-blur">
+        <div class="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-5">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.4em] text-cyan-200/80">Seller Toolkit</p>
+            <h1 class="mt-1 text-2xl font-semibold">Panel Admin Lisensi</h1>
+            <p class="mt-1 text-sm text-slate-300">Kelola kode lisensi, masa berlaku, dan trial perangkat.</p>
+          </div>
+          <a
+            href="../index.html"
+            class="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+            Kembali ke Beranda
+          </a>
+        </div>
+      </header>
+
+      <main class="flex-1">
+        <section class="mx-auto w-full max-w-6xl space-y-10 px-6 py-10">
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-cyan-500/10">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/80">Total Lisensi</p>
+              <p class="mt-3 text-3xl font-semibold" data-summary-total>0</p>
+              <p class="mt-2 text-xs text-slate-400">Nonaktif: <span data-summary-inactive>0</span></p>
+            </div>
+            <div class="rounded-3xl border border-emerald-400/20 bg-emerald-400/10 p-5 shadow-lg shadow-emerald-500/20">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-200/80">Lisensi Aktif</p>
+              <p class="mt-3 text-3xl font-semibold text-emerald-100" data-summary-active>0</p>
+              <p class="mt-2 text-xs text-emerald-200/70">Perangkat akan langsung mendapatkan akses premium.</p>
+            </div>
+            <div class="rounded-3xl border border-amber-400/30 bg-amber-400/10 p-5 shadow-lg shadow-amber-500/20">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-200/80">Trial Premium</p>
+              <p class="mt-3 text-3xl font-semibold text-amber-100" data-summary-trial-active>0</p>
+              <p class="mt-2 text-xs text-amber-200/70">Total trial: <span data-summary-trial-total>0</span></p>
+            </div>
+            <div class="rounded-3xl border border-indigo-400/30 bg-indigo-400/10 p-5 shadow-lg shadow-indigo-500/20">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-200/80">Lisensi Premium</p>
+              <p class="mt-3 text-3xl font-semibold text-indigo-100" data-summary-premium-active>0</p>
+              <p class="mt-2 text-xs text-indigo-200/70">Total premium: <span data-summary-premium-total>0</span></p>
+            </div>
+          </div>
+
+          <div class="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+            <section class="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-[0_35px_60px_-25px_rgba(14,165,233,0.35)]">
+              <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <span class="inline-flex items-center gap-2 rounded-full bg-cyan-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Katalog Lisensi</span>
+                  <h2 class="mt-3 text-xl font-semibold">Daftar Kode &amp; Masa Berlaku</h2>
+                  <p class="mt-1 text-sm text-slate-300">Gunakan tombol aksi untuk mengubah status, sunting, atau menghapus lisensi.</p>
+                </div>
+                <button
+                  type="button"
+                  data-new-license
+                  class="inline-flex items-center gap-2 self-start rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                  </svg>
+                  Lisensi Baru
+                </button>
+              </div>
+              <div class="mt-6 overflow-hidden rounded-2xl border border-white/5">
+                <table class="min-w-full divide-y divide-white/5 text-sm">
+                  <thead class="bg-white/5 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
+                    <tr>
+                      <th class="px-4 py-3">Kode Lisensi</th>
+                      <th class="px-4 py-3">Jenis</th>
+                      <th class="px-4 py-3">Status</th>
+                      <th class="px-4 py-3">Update Terakhir</th>
+                      <th class="px-4 py-3">Catatan</th>
+                      <th class="px-4 py-3 text-right">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody data-license-table class="divide-y divide-white/5 bg-white/5 text-sm">
+                    <tr>
+                      <td colspan="6" class="px-4 py-6 text-center text-sm text-slate-400">Memuat data lisensi...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <div class="space-y-8">
+              <section class="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-[0_30px_60px_-30px_rgba(236,72,153,0.4)]">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="space-y-2">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-white/80">Status Perangkat</span>
+                    <h2 class="text-lg font-semibold" data-device-title>Perangkat belum memiliki lisensi</h2>
+                    <p class="text-sm text-slate-300" data-device-caption>Aktifkan lisensi untuk melihat masa berlaku di sini.</p>
+                  </div>
+                  <span data-device-badge class="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-slate-200">Tidak Aktif</span>
+                </div>
+                <dl class="mt-5 grid gap-4 text-xs text-slate-300 sm:grid-cols-2">
+                  <div>
+                    <dt class="font-semibold uppercase tracking-[0.3em] text-slate-400">Kode</dt>
+                    <dd class="mt-1 text-sm text-white" data-device-code>—</dd>
+                  </div>
+                  <div>
+                    <dt class="font-semibold uppercase tracking-[0.3em] text-slate-400">Jenis</dt>
+                    <dd class="mt-1 text-sm text-white" data-device-type>—</dd>
+                  </div>
+                  <div>
+                    <dt class="font-semibold uppercase tracking-[0.3em] text-slate-400">Aktif Sejak</dt>
+                    <dd class="mt-1 text-sm text-white" data-device-activated>—</dd>
+                  </div>
+                  <div>
+                    <dt class="font-semibold uppercase tracking-[0.3em] text-slate-400">Kedaluwarsa</dt>
+                    <dd class="mt-1 text-sm text-white" data-device-expiry>—</dd>
+                  </div>
+                  <div class="sm:col-span-2">
+                    <dt class="font-semibold uppercase tracking-[0.3em] text-slate-400">Sisa Waktu</dt>
+                    <dd class="mt-1 text-sm text-white" data-device-countdown>—</dd>
+                  </div>
+                </dl>
+                <div class="mt-6 space-y-3">
+                  <button
+                    type="button"
+                    data-device-reset
+                    class="w-full rounded-2xl border border-white/10 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+                  >
+                    Reset Lisensi Perangkat
+                  </button>
+                  <p class="hidden text-xs font-medium" data-device-message></p>
+                </div>
+              </section>
+
+              <section class="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-[0_30px_60px_-30px_rgba(16,185,129,0.45)]">
+                <div class="space-y-2">
+                  <span class="inline-flex items-center gap-2 rounded-full bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-200">Kelola Lisensi</span>
+                  <h2 class="text-lg font-semibold" data-form-title>Tambah Lisensi Baru</h2>
+                  <p class="text-sm text-slate-300" data-form-caption>Isi detail lisensi lalu tekan simpan. Kode akan otomatis tersimpan ke perangkat admin.</p>
+                </div>
+                <form id="licenseForm" class="mt-6 space-y-4">
+                  <input type="hidden" name="licenseId" />
+                  <div class="grid gap-4 sm:grid-cols-2">
+                    <label class="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                      Kode Lisensi
+                      <input
+                        name="licenseCode"
+                        type="text"
+                        placeholder="Contoh: SELLERPRO-2025"
+                        class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      />
+                    </label>
+                    <label class="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                      Nama Paket
+                      <input
+                        name="licenseLabel"
+                        type="text"
+                        placeholder="Misal: Premium Tahunan"
+                        class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      />
+                    </label>
+                  </div>
+                  <div class="grid gap-4 sm:grid-cols-2">
+                    <label class="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                      Jenis Lisensi
+                      <select
+                        name="licenseType"
+                        class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      >
+                        <option value="premium">Premium</option>
+                        <option value="trial">Trial</option>
+                      </select>
+                    </label>
+                    <label class="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400" data-duration-label>
+                      <span data-duration-title>Durasi Aktif (hari)</span>
+                      <input
+                        name="licenseDuration"
+                        type="number"
+                        min="0"
+                        step="1"
+                        placeholder="0 = tanpa batas"
+                        class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      />
+                    </label>
+                  </div>
+                  <p class="text-xs text-slate-400" data-duration-hint>Isi 0 untuk lisensi tanpa batas. Trial wajib minimal 1 hari.</p>
+                  <label class="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                    Status Lisensi
+                    <select
+                      name="licenseStatus"
+                      class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                    >
+                      <option value="active">Aktif</option>
+                      <option value="inactive">Nonaktif</option>
+                    </select>
+                  </label>
+                  <label class="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                    Catatan Admin
+                    <textarea
+                      name="licenseNotes"
+                      rows="3"
+                      placeholder="Catatan internal atau promo khusus"
+                      class="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                    ></textarea>
+                  </label>
+                  <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <button
+                      type="submit"
+                      class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-sky-400 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/50 sm:w-auto"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                      Simpan Lisensi
+                    </button>
+                    <button
+                      type="button"
+                      data-reset-form
+                      class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 px-5 py-3 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white sm:w-auto"
+                    >
+                      Reset Form
+                    </button>
+                  </div>
+                <p class="hidden text-xs font-medium" data-form-message></p>
+              </form>
+            </section>
+            <section class="rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-[0_25px_55px_-30px_rgba(59,130,246,0.4)]">
+              <div class="space-y-2">
+                <span class="inline-flex items-center gap-2 rounded-full bg-sky-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-sky-200">Sinkronisasi Data</span>
+                <h2 class="text-lg font-semibold">Bagikan Katalog ke Halaman Publik</h2>
+                <p class="text-sm text-slate-300">Salin string lisensi ke perangkat lain atau tempel string dari halaman utama untuk memperbarui katalog di sini.</p>
+              </div>
+              <div class="mt-5 space-y-5">
+                <div class="space-y-2">
+                  <label class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">String Katalog</label>
+                  <textarea
+                    data-export-field
+                    class="h-28 w-full resize-none rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3 text-xs text-slate-200 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
+                    readonly
+                    spellcheck="false"
+                  ></textarea>
+                  <div class="flex flex-wrap gap-2 text-xs">
+                    <button
+                      type="button"
+                      data-copy-export
+                      class="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl border border-white/10 px-3 py-2 font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+                    >
+                      Salin String
+                    </button>
+                    <button
+                      type="button"
+                      data-refresh-export
+                      class="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 px-3 py-2 font-semibold text-white/60 transition hover:border-white/40 hover:text-white"
+                    >
+                      Perbarui
+                    </button>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <label class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Impor / Sinkronkan</label>
+                  <textarea
+                    data-import-field
+                    class="h-28 w-full resize-none rounded-2xl border border-white/10 bg-slate-950/50 px-4 py-3 text-xs text-slate-200 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                    placeholder="Tempel string lisensi dari halaman publik di sini"
+                    spellcheck="false"
+                  ></textarea>
+                  <div class="flex flex-wrap gap-2 text-xs">
+                    <button
+                      type="button"
+                      data-import-merge
+                      class="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl border border-emerald-400/40 bg-emerald-400/10 px-3 py-2 font-semibold text-emerald-100 transition hover:border-emerald-400/60 hover:text-white"
+                    >
+                      Gabungkan
+                    </button>
+                    <button
+                      type="button"
+                      data-import-replace
+                      class="inline-flex items-center justify-center gap-2 rounded-2xl border border-rose-400/40 bg-rose-400/10 px-3 py-2 font-semibold text-rose-100 transition hover:border-rose-400/60 hover:text-white"
+                    >
+                      Ganti Semua
+                    </button>
+                  </div>
+                  <p class="hidden text-xs font-medium" data-import-message></p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+      </main>
+
+      <footer class="border-t border-white/10 bg-slate-950/80 py-6">
+        <div class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; <span data-current-year></span> Seller Toolkit. Panel administrasi internal.</p>
+          <p>Perubahan lisensi disimpan secara lokal pada perangkat ini.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="../assets/license.js"></script>
+    <script src="./logic.js"></script>
+  </body>
+</html>

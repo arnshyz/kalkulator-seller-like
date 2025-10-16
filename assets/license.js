@@ -259,7 +259,8 @@
     const catalog = ensureCatalog();
     const payload = input || {};
     const code = (payload.code || '').trim().toUpperCase();
-    const label = (payload.label || '').trim();
+    const labelInput = (payload.label || '').trim();
+    const label = labelInput || code;
     const type = payload.type === 'trial' ? 'trial' : 'premium';
     const status = payload.status === 'inactive' ? 'inactive' : 'active';
     const notes = typeof payload.notes === 'string' ? payload.notes.trim() : '';
@@ -268,9 +269,6 @@
 
     if (!code) {
       return { ok: false, message: 'Kode lisensi wajib diisi.' };
-    }
-    if (!label) {
-      return { ok: false, message: 'Nama paket lisensi wajib diisi.' };
     }
     if (type === 'trial' && (!durationDays || durationDays < 1)) {
       return { ok: false, message: 'Lisensi trial wajib memiliki durasi minimal 1 hari.' };

@@ -37,7 +37,7 @@
         'SELLER-TRIAL-7',
         'Trial Premium 7 Hari',
         'trial',
-        7,
+        1,
         'active',
         'Trial standar untuk calon pelanggan baru.'
       ),
@@ -47,7 +47,7 @@
         'Lisensi Lifetime 999',
         'premium',
         null,
-        'inactive',
+        'active',
         'Aktifkan manual untuk promo lifetime.'
       ),
     ];

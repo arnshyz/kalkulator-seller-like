@@ -37,7 +37,7 @@
         'SELLER-TRIAL-7',
         'Trial Premium 7 Hari',
         'trial',
-        1,
+        7,
         'active',
         'Trial standar untuk calon pelanggan baru.'
       ),
@@ -47,7 +47,7 @@
         'Lisensi Lifetime 999',
         'premium',
         null,
-        'active',
+        'inactive',
         'Aktifkan manual untuk promo lifetime.'
       ),
     ];
@@ -237,6 +237,29 @@
         detail,
       })
     );
+  }
+
+  function handleStorageChange(event) {
+    if (!event) return;
+    const key = event.key;
+
+    if (key === null) {
+      const catalog = ensureCatalog();
+      dispatchCatalog(catalog);
+      notify();
+      return;
+    }
+
+    if (key === CATALOG_KEY) {
+      const catalog = ensureCatalog();
+      dispatchCatalog(catalog);
+      notify();
+      return;
+    }
+
+    if (key === STATUS_KEY || key === CODE_KEY || key === ACTIVATED_AT_KEY) {
+      notify();
+    }
   }
 
   function saveCatalog(list) {
@@ -535,4 +558,8 @@
   const initialCatalog = ensureCatalog();
   dispatchCatalog(initialCatalog);
   notify();
+
+  if (typeof window !== 'undefined' && window.addEventListener) {
+    window.addEventListener('storage', handleStorageChange);
+  }
 })();

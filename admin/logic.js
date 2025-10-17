@@ -1,4 +1,8 @@
 (function () {
+  if (window.AdminAuth) {
+    window.AdminAuth.requireAuth({ redirectTo: './login.html' });
+  }
+
   const summaryEls = {
     total: document.querySelector('[data-summary-total]'),
     active: document.querySelector('[data-summary-active]'),
@@ -53,6 +57,27 @@
     importReplace: document.querySelector('[data-import-replace]'),
     importMessage: document.querySelector('[data-import-message]'),
   };
+
+  const logoutBtn = document.querySelector('[data-logout]');
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      if (window.AdminAuth) {
+        window.AdminAuth.logout();
+      } else {
+        try {
+          window.localStorage.removeItem('sellerToolkit.admin.session');
+        } catch (error) {
+          // ignore
+        }
+      }
+      try {
+        window.location.replace('./login.html');
+      } catch (error) {
+        window.location.href = './login.html';
+      }
+    });
+  }
 
   let editingId = null;
   let cachedCatalog = [];
